@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "359511505493",
+    "project_id": "hyupstagram",
+    "storage_bucket": "hyupstagram.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359511505493:android:13e810f49aa9bf02bcf2dc",
+        "android_client_info": {
+          "package_name": "kr.ac.seokyeong.hyupstagram"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEH3aHFIdjBY7Q5UiUUm-DAul0BIbVPp8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
