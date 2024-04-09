@@ -1,26 +1,44 @@
 {
   "project_info": {
-    "project_number": "359511505493",
-    "project_id": "hyupstagram",
-    "storage_bucket": "hyupstagram.appspot.com"
+    "project_number": "1087330270762",
+    "project_id": "hyupstagram-18f0c",
+    "storage_bucket": "hyupstagram-18f0c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:359511505493:android:13e810f49aa9bf02bcf2dc",
+        "mobilesdk_app_id": "1:1087330270762:android:e9db24eaecb64126044d53",
         "android_client_info": {
           "package_name": "kr.ac.seokyeong.hyupstagram"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1087330270762-ama3q6utd219s9tu3b9deid8gbilm6ja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.ac.seokyeong.hyupstagram",
+            "certificate_hash": "037570744c231c658389eaf6265df7478c375a28"
+          }
+        },
+        {
+          "client_id": "1087330270762-k85b67iji6idjl0eaact2n5d95n4o36v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDEH3aHFIdjBY7Q5UiUUm-DAul0BIbVPp8"
+          "current_key": "AIzaSyCxgKKFhBXZmh6KZtEHlUi81M1Y1SdHgYo"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087330270762-k85b67iji6idjl0eaact2n5d95n4o36v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
