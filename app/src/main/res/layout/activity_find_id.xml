@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="kr.ac.seokyeong.hyupstagram.login.FindIdViewModel" />
+        <variable
+            name="activity"
+            type="kr.ac.seokyeong.hyupstagram.login.FindIdActivity" />
     </data>
 
     <RelativeLayout
@@ -34,6 +39,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:text="@={viewModel.phoneNumber}"
                     android:id="@+id/edittext_phonenumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,6 +54,7 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:text="@={viewModel.id}"
                     android:id="@+id/edittext_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,6 +71,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:onClick="@{() -> viewModel.findMyId()}"
                 android:id="@+id/find_id_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,6 +79,7 @@
                 android:layout_marginRight="20dp"
                 android:text="@string/find_id" />
             <androidx.appcompat.widget.AppCompatButton
+                android:onClick="@{() -> viewModel.findMyPassword()}"
                 android:id="@+id/find_password_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,6 +88,7 @@
                 android:text="@string/find_password" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:onClick="@{() -> activity.finish()}"
                 android:layout_marginTop="30dp"
                 android:id="@+id/dismiss_btn"
                 android:layout_width="match_parent"
