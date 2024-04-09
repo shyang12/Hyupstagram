@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">hyupstagram</string>
-    <string name="facebook_app_id">397161661812167</string>
-    <string name="fb_login_protocol_scheme">fb397161661812167</string>
+    <string name="facebook_app_id">1025568232329899</string>
+    <string name="fb_login_protocol_scheme">fb100d3f63f94550d36b9536acd21c8876</string>
+    <string name="facebook_client_token">100d3f63f94550d36b9536acd21c8876</string>
+
 
 
     <!-- Sign In -->
