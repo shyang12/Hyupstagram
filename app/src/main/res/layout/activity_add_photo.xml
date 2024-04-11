@@ -55,12 +55,13 @@
 
             <EditText
                 android:gravity="top"
+                android:id="@+id/addphoto_edit_edittext"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/addphto_upload_btn"
+            android:id="@+id/addphoto_upload_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/edit_textinputlayout"
