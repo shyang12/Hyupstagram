@@ -5,7 +5,6 @@
     <string name="facebook_client_token">100d3f63f94550d36b9536acd21c8876</string>
 
 
-
     <!-- Sign In -->
     <string name="email">Email</string>
     <string name="phone_number">Phone Number</string>
@@ -62,4 +61,6 @@
     <!-- etc -->
     <item name="visible" type="id" />
     <item name="masked" type="id" />
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
