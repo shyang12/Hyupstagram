@@ -9,6 +9,7 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.google.firebase.auth.FirebaseAuth
 import kr.ac.seokyeong.hyupstagram.databinding.ActivityMainBinding
 import kr.ac.seokyeong.hyupstagram.fragment.AlarmFragment
 import kr.ac.seokyeong.hyupstagram.fragment.DetailViewFragment
@@ -51,12 +52,17 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.action_account -> {
                     var f = UserFragment()
+                    var bundle = Bundle()
+                    var uid = FirebaseAuth.getInstance().currentUser?.uid
+                    bundle.putString("destinationUid", uid)
+                    f.arguments = bundle
+
                     supportFragmentManager.beginTransaction().replace(R.id.main_content, f).commit()
 
                     return@setOnNavigationItemSelectedListener true
                 }
             }
-            return@setOnNavigationItemSelectedListener true
+            return@setOnNavigationItemSelectedListener false
         }
     }
 }

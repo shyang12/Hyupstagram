@@ -55,8 +55,8 @@ class DetailViewFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail_view, container, false)
 
-        binding.detailviewRecyclerveiw.adapter = DetailViewRecyclerviewAdapter()
-        binding.detailviewRecyclerveiw.layoutManager = LinearLayoutManager(activity)
+        binding.detailviewRecyclerview.adapter = DetailViewRecyclerviewAdapter()
+        binding.detailviewRecyclerview.layoutManager = LinearLayoutManager(activity)
 
         return binding.root
     }
