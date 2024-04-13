@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kr.ac.seokyeong.hyupstagram.R
 import kr.ac.seokyeong.hyupstagram.databinding.FragmentDetailViewBinding
@@ -33,6 +34,8 @@ class DetailViewFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    var uid : String? = null
+    var firestore : FirebaseFirestore? = null
     lateinit var binding : FragmentDetailViewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +43,8 @@ class DetailViewFragment : Fragment() {
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
+
+
         }
     }
 
@@ -80,15 +85,19 @@ class DetailViewFragment : Fragment() {
 
     inner class DetailViewRecyclerviewAdapter() : RecyclerView.Adapter<DetailViewHolder>() {
         var firestore = FirebaseFirestore.getInstance()
+        var uid = FirebaseAuth.getInstance().currentUser?.uid
         var contentModels = arrayListOf<ContentModel>()
+        var contentUidList = arrayListOf<String>()
 
 
         init {
             firestore.collection("images").addSnapshotListener { value, error ->
                 contentModels.clear()
+                contentUidList.clear()
                 for (item in value!!.documents) {
                     var contentModel = item.toObject(ContentModel::class.java)
                     contentModels.add(contentModel!!)
+                    contentUidList.add(item.id)
                 }
                 notifyDataSetChanged()
             }
@@ -108,8 +117,40 @@ class DetailViewFragment : Fragment() {
 
             holder.binding.profileTextview.text = contentModel.userId
             holder.binding.explainTextview.text = contentModel.explain
-            holder.binding.likeTextview.text = "Like " + contentModel.favoriteCount
             Glide.with(holder.itemView.context).load(contentModel.imageUrl).into(holder.binding.contentImageview)
+            holder.binding.likeTextview.text = "Like " + contentModel.favoriteCount
+
+            // this code is the button is clicked
+            holder.binding.favoriteImageview.setOnClickListener {
+                favorirteEvent(position)
+            }
+
+            // This code is when the page is loaded
+            if(contentModels[position].favorites.containsKey(uid)) {
+                // this is like status
+                holder.binding.favoriteImageview.setImageResource(R.drawable.ic_favorite)
+            } else {
+                // this is unlike status
+                holder.binding.favoriteImageview.setImageResource(R.drawable.ic_favorite_border)
+            }
+        }
+
+        fun favorirteEvent(position : Int) {
+            var tsDoc = firestore.collection("images").document(contentUidList[position])
+            firestore.runTransaction { transaction ->
+                var contentModel = transaction.get(tsDoc).toObject(ContentModel::class.java)
+
+                if(contentModel!!.favorites.containsKey(uid)) {
+                    // when the button is clicked
+                    contentModel.favoriteCount = contentModel.favoriteCount - 1
+                    contentModel.favorites.remove(uid)
+                } else {
+                    // when the button is not clicked
+                    contentModel.favoriteCount = contentModel.favoriteCount + 1
+                    contentModel.favorites[uid!!] = true
+                }
+                transaction.set(tsDoc, contentModel)
+            }
         }
 
     }
