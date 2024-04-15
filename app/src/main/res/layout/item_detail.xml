@@ -16,6 +16,7 @@
 
             <ImageView
                 android:id="@+id/profile_imageview"
+                android:src="@mipmap/ic_launcher"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_margin="7.5dp" />

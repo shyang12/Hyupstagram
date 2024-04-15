@@ -20,8 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.ac.seokyeong.hyupstagram.R
-import kr.ac.seokyeong.hyupstagram.databinding.FragmentDetailViewBinding
-import kr.ac.seokyeong.hyupstagram.databinding.FragmentUserBinding
+
 import kotlinx.android.synthetic.main.fragment_user.view.*
 import kr.ac.seokyeong.hyupstagram.MainActivity
 import kr.ac.seokyeong.hyupstagram.login.LoginActivity
@@ -45,8 +44,6 @@ class UserFragment : Fragment() {
     var uid : String? = null
     var auth : FirebaseAuth? = null
     var currentUserUid : String? = null
-
-    lateinit var binding : FragmentUserBinding
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null

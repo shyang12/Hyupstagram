@@ -5,7 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_grid.view.*
 import kr.ac.seokyeong.hyupstagram.R
+import kr.ac.seokyeong.hyupstagram.model.ContentModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +31,9 @@ class GridFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    var firestore : FirebaseFirestore? = null
+    var fragmentView : View? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -35,7 +47,49 @@ class GridFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_grid, container, false)
+        fragmentView = LayoutInflater.from(activity).inflate(R.layout.fragment_grid, container, false)
+        firestore = FirebaseFirestore.getInstance()
+        fragmentView?.grid_recyclerview?.adapter = UserFragmentRecyclerViewAdapter()
+        fragmentView?.grid_recyclerview?.layoutManager = GridLayoutManager(activity, 3)
+
+        return fragmentView
+    }
+
+    inner class UserFragmentRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+        var contentModels = arrayListOf<ContentModel>()
+
+        init {
+            firestore?.collection("images")?.addSnapshotListener { value, error ->
+                // Sometimes, This code return null of querySnapshot when it signout
+                if (value == null) return@addSnapshotListener
+
+                // Get data
+                for(snaphot in value.documents) {
+                    contentModels.add(snaphot.toObject(ContentModel::class.java)!!)
+                }
+                notifyDataSetChanged()
+            }
+        }
+        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
+            var width = resources.displayMetrics.widthPixels / 3
+            var imageview = ImageView(p0.context)
+            imageview.layoutParams = LinearLayoutCompat.LayoutParams(width, width)
+            return CustomViewHolder(imageview)
+        }
+
+        inner class CustomViewHolder(var imageview: ImageView) : RecyclerView.ViewHolder(imageview) {
+
+        }
+
+        override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
+            var imageview = (p0 as CustomViewHolder).imageview
+            Glide.with(p0.itemView.context).load(contentModels[p1].imageUrl).apply(RequestOptions().centerCrop()).into(imageview)
+
+        }
+
+        override fun getItemCount(): Int {
+            return contentModels.size
+        }
     }
 
     companion object {
