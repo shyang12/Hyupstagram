@@ -94,6 +94,8 @@ class DetailViewFragment : Fragment() {
             firestore.collection("images").addSnapshotListener { value, error ->
                 contentModels.clear()
                 contentUidList.clear()
+                if(value == null) return@addSnapshotListener
+
                 for (item in value!!.documents) {
                     var contentModel = item.toObject(ContentModel::class.java)
                     contentModels.add(contentModel!!)
@@ -133,6 +135,16 @@ class DetailViewFragment : Fragment() {
                 // this is unlike status
                 holder.binding.favoriteImageview.setImageResource(R.drawable.ic_favorite_border)
             }
+            // This code is when the profile image is clicked
+            holder.binding.profileImageview.setOnClickListener{
+                var fragment = UserFragment()
+                var bundle = Bundle()
+                bundle.putString("destinationUid", contentModels[position].uid)
+                bundle.putString("userId", contentModels[position].userId)
+                fragment.arguments = bundle
+                activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, fragment)?.commit()
+            }
+
         }
 
         fun favorirteEvent(position : Int) {

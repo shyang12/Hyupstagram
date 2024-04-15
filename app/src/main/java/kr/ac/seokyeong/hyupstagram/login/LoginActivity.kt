@@ -19,6 +19,8 @@ import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kr.ac.seokyeong.hyupstagram.MainActivity
 import kr.ac.seokyeong.hyupstagram.R
 import kr.ac.seokyeong.hyupstagram.databinding.ActivityLoginBinding
@@ -28,12 +30,14 @@ import java.util.*
 
 
 class LoginActivity : AppCompatActivity() {
+    var auth : FirebaseAuth? = null
     val TAG = "LoginActivity"
     lateinit var binding : ActivityLoginBinding
     val loginViewModel: LoginViewModel by viewModels()
     lateinit var callbackManager: CallbackManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = FirebaseAuth.getInstance()
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.viewModel = loginViewModel
         binding.activity = this
@@ -63,6 +67,7 @@ class LoginActivity : AppCompatActivity() {
 
         })
     }
+
 
     fun printHashKey(pContext: Context) {
         try {
@@ -119,5 +124,11 @@ class LoginActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         callbackManager.onActivityResult(requestCode, resultCode, data)
+    }
+    fun moveMainPage(user: FirebaseUser?){
+        if(user != null){
+            startActivity(Intent(this,MainActivity::class.java))
+            finish()
+        }
     }
 }

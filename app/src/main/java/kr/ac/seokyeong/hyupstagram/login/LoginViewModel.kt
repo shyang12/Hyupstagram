@@ -64,6 +64,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         var i = googleSignInClient.signInIntent
         (view.context as? LoginActivity)?.googleLoginResult?.launch(i)
     }
+
     fun firebaseAuthWithGoogle(idToken : String?){
         val credential = GoogleAuthProvider.getCredential(idToken,null)
         auth.signInWithCredential(credential).addOnCompleteListener {
