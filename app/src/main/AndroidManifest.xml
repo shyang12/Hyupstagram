@@ -16,6 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Hyupstagram"
         tools:targetApi="31">
+        <activity android:name=".navigation.CommentActivity">
+        </activity>
         <activity
             android:name=".AddPhotoActivity"
             android:exported="false">

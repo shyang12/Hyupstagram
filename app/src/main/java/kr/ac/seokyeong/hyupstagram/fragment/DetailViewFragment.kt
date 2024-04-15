@@ -1,5 +1,6 @@
 package kr.ac.seokyeong.hyupstagram.fragment
 
+import android.content.Intent
 import android.os.Bundle
 
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import kr.ac.seokyeong.hyupstagram.R
 import kr.ac.seokyeong.hyupstagram.databinding.FragmentDetailViewBinding
 import kr.ac.seokyeong.hyupstagram.databinding.ItemDetailBinding
 import kr.ac.seokyeong.hyupstagram.model.ContentModel
+import kr.ac.seokyeong.hyupstagram.navigation.CommentActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -143,6 +145,11 @@ class DetailViewFragment : Fragment() {
                 bundle.putString("userId", contentModels[position].userId)
                 fragment.arguments = bundle
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content, fragment)?.commit()
+            }
+            holder.binding.commentImageview.setOnClickListener { v ->
+                var intent = Intent(v.context, CommentActivity::class.java)
+                intent.putExtra("contentUid", contentUidList[position])
+                startActivity(intent)
             }
 
         }
