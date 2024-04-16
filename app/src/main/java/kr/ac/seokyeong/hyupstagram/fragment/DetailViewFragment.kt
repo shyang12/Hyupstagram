@@ -18,6 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kr.ac.seokyeong.hyupstagram.R
 import kr.ac.seokyeong.hyupstagram.databinding.FragmentDetailViewBinding
 import kr.ac.seokyeong.hyupstagram.databinding.ItemDetailBinding
+import kr.ac.seokyeong.hyupstagram.model.AlarmDTO
 import kr.ac.seokyeong.hyupstagram.model.ContentModel
 import kr.ac.seokyeong.hyupstagram.navigation.CommentActivity
 
@@ -149,6 +150,7 @@ class DetailViewFragment : Fragment() {
             holder.binding.commentImageview.setOnClickListener { v ->
                 var intent = Intent(v.context, CommentActivity::class.java)
                 intent.putExtra("contentUid", contentUidList[position])
+                intent.putExtra("destinationUid", contentModels[position].uid)
                 startActivity(intent)
             }
 
@@ -167,10 +169,20 @@ class DetailViewFragment : Fragment() {
                     // when the button is not clicked
                     contentModel.favoriteCount = contentModel.favoriteCount + 1
                     contentModel.favorites[uid!!] = true
+                    favoriteAlarm(contentModels[position].uid!!)
                 }
                 transaction.set(tsDoc, contentModel)
             }
         }
 
+        fun favoriteAlarm(destinationUid : String) {
+            var alarmDTO = AlarmDTO()
+            alarmDTO.destinationUid = destinationUid
+            alarmDTO.userId = FirebaseAuth.getInstance().currentUser?.email
+            alarmDTO.uid = FirebaseAuth.getInstance().currentUser?.uid
+            alarmDTO.kind = 0
+            alarmDTO.timestamp = System.currentTimeMillis()
+            FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
+        }
     }
 }

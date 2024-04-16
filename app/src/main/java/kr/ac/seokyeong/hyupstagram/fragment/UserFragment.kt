@@ -24,6 +24,7 @@ import kr.ac.seokyeong.hyupstagram.R
 import kotlinx.android.synthetic.main.fragment_user.view.*
 import kr.ac.seokyeong.hyupstagram.MainActivity
 import kr.ac.seokyeong.hyupstagram.login.LoginActivity
+import kr.ac.seokyeong.hyupstagram.model.AlarmDTO
 import kr.ac.seokyeong.hyupstagram.model.ContentModel
 import kr.ac.seokyeong.hyupstagram.model.FollowDTO
 
@@ -166,7 +167,7 @@ class UserFragment : Fragment() {
                 followDTO = FollowDTO()
                 followDTO!!.followerCount = 1
                 followDTO!!.followers[currentUserUid!!] = true
-
+                followerAlarm(uid!!)
                 transaction.set(tsDocFollower, followDTO!!)
                 return@runTransaction
             }
@@ -179,10 +180,21 @@ class UserFragment : Fragment() {
                 // It add my follower when I don't follow a third person
                 followDTO!!.followerCount = followDTO!!.followerCount + 1
                 followDTO!!.followers[currentUserUid!!] = true
+                followerAlarm(uid!!)
             }
             transaction.set(tsDocFollower, followDTO!!)
             return@runTransaction
         }
+    }
+
+    fun followerAlarm(destinationUid : String) {
+        var alarmDTO = AlarmDTO()
+        alarmDTO.destinationUid = destinationUid
+        alarmDTO.userId = auth?.currentUser?.email
+        alarmDTO.uid = auth?.currentUser?.uid
+        alarmDTO.kind = 2
+        alarmDTO.timestamp = System.currentTimeMillis()
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
     }
 
     fun getProfileImage(){
