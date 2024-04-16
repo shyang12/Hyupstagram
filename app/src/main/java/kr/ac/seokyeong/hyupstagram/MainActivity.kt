@@ -13,7 +13,9 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        registerPushToken()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
@@ -80,10 +84,24 @@ class MainActivity : AppCompatActivity() {
         toolbar_logo.visibility = View.VISIBLE
     }
 
+    fun registerPushToken() {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+            task ->
+                if(task.isSuccessful) {
+                    val token = task.result?:""
+                    val uid = FirebaseAuth.getInstance().currentUser?.uid
+                    val map = mutableMapOf<String, Any>()
+                    map["pushToken"] = token!!
+
+                    FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map)
+                }
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == UserFragment.PICK_PROFILE_FROM_ALBUM && resultCode == Activity.RESULT_OK) {
+        if(requestCode == UserFragment.PICK_PROFILE_FROM_ALBUM && resultCode == RESULT_OK) {
             var imageUri = data?.data
             var uid = FirebaseAuth.getInstance().currentUser?.uid
             var storageRef = FirebaseStorage.getInstance().reference.child("userProfileImages").child(uid!!)
