@@ -18,19 +18,17 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
-import kotlinx.android.synthetic.main.activity_main.*
 import kr.ac.seokyeong.hyupstagram.databinding.ActivityMainBinding
 import kr.ac.seokyeong.hyupstagram.fragment.AlarmFragment
 import kr.ac.seokyeong.hyupstagram.fragment.DetailViewFragment
 import kr.ac.seokyeong.hyupstagram.fragment.GridFragment
 import kr.ac.seokyeong.hyupstagram.fragment.UserFragment
+import kr.ac.seokyeong.hyupstagram.util.FcmPush
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        registerPushToken()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
@@ -77,11 +75,12 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnNavigationItemSelectedListener false
         }
+        registerPushToken()
     }
     fun setToolbarDefault(){
-        toolbar_username.visibility = View.GONE
-        toolbar_btn_back.visibility = View.GONE
-        toolbar_logo.visibility = View.VISIBLE
+        binding.toolbarUsername.visibility = View.GONE
+        binding.toolbarBtnBack.visibility = View.GONE
+        binding.toolbarLogo.visibility = View.VISIBLE
     }
 
     fun registerPushToken() {
@@ -90,13 +89,18 @@ class MainActivity : AppCompatActivity() {
                 if(task.isSuccessful) {
                     val token = task.result?:""
                     val uid = FirebaseAuth.getInstance().currentUser?.uid
-                    val map = mutableMapOf<String, Any>()
+                    val map = mutableMapOf<String,Any>()
                     map["pushToken"] = token!!
 
                     FirebaseFirestore.getInstance().collection("pushtokens").document(uid!!).set(map)
                 }
         }
     }
+
+    /* override fun onStop() {
+        super.onStop()
+        FcmPush.instance.sendMessage("pS14mwEQfuMxllFuZb8XUHLQO2z2", "hi", "bye")
+    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

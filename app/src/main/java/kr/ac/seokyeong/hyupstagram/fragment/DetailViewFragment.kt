@@ -21,6 +21,7 @@ import kr.ac.seokyeong.hyupstagram.databinding.ItemDetailBinding
 import kr.ac.seokyeong.hyupstagram.model.AlarmDTO
 import kr.ac.seokyeong.hyupstagram.model.ContentModel
 import kr.ac.seokyeong.hyupstagram.navigation.CommentActivity
+import kr.ac.seokyeong.hyupstagram.util.FcmPush
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -183,6 +184,9 @@ class DetailViewFragment : Fragment() {
             alarmDTO.kind = 0
             alarmDTO.timestamp = System.currentTimeMillis()
             FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
+
+            var message = FirebaseAuth.getInstance()?.currentUser?.email + getString(R.string.alarm_favorite)
+            FcmPush.instance.sendMessage(destinationUid, "Hyupstagram", message)
         }
     }
 }

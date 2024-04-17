@@ -18,15 +18,16 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
-import kotlinx.android.synthetic.main.activity_main.*
 import kr.ac.seokyeong.hyupstagram.R
 
-import kotlinx.android.synthetic.main.fragment_user.view.*
 import kr.ac.seokyeong.hyupstagram.MainActivity
+import kr.ac.seokyeong.hyupstagram.databinding.ActivityMainBinding
+import kr.ac.seokyeong.hyupstagram.databinding.FragmentUserBinding
 import kr.ac.seokyeong.hyupstagram.login.LoginActivity
 import kr.ac.seokyeong.hyupstagram.model.AlarmDTO
 import kr.ac.seokyeong.hyupstagram.model.ContentModel
 import kr.ac.seokyeong.hyupstagram.model.FollowDTO
+import kr.ac.seokyeong.hyupstagram.util.FcmPush
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -46,6 +47,8 @@ class UserFragment : Fragment() {
     var auth : FirebaseAuth? = null
     var currentUserUid : String? = null
 
+    lateinit var binding : FragmentUserBinding
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -63,7 +66,7 @@ class UserFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        fragmentView = LayoutInflater.from(activity).inflate(R.layout.fragment_user,container,false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_user, container, false)
         uid = arguments?.getString("destinationUid")
         firestore = FirebaseFirestore.getInstance()
         auth = FirebaseAuth.getInstance()
@@ -71,33 +74,33 @@ class UserFragment : Fragment() {
 
         if(uid == currentUserUid) {
             // MyPage
-            fragmentView?.account_btn_follow_signout?.text = getString(R.string.signout)
-            fragmentView?.account_btn_follow_signout?.setOnClickListener {
+            binding?.accountBtnFollowSignout?.text = getString(R.string.signout)
+            binding?.accountBtnFollowSignout?.setOnClickListener {
                 activity?.finish()
                 startActivity(Intent(activity, LoginActivity::class.java))
                 auth?.signOut()
             }
         } else {
             // OtherUserPage
-            fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow)
-            var mainactivity = (activity as MainActivity)
-            mainactivity?.toolbar_username?.text = arguments?.getString("userId")
-            mainactivity?.toolbar_btn_back?.setOnClickListener {
-                mainactivity.bottom_navigation.selectedItemId = R.id.action_home
+            binding.accountBtnFollowSignout.text = getString(R.string.follow)
+            var mbinding = ActivityMainBinding.inflate(layoutInflater)
+            mbinding?.toolbarUsername?.text = arguments?.getString("userId")
+            mbinding?.toolbarBtnBack?.setOnClickListener {
+                mbinding?.bottomNavigation?.selectedItemId = R.id.action_home
             }
-            mainactivity?.toolbar_logo?.visibility = View.GONE
-            mainactivity?.toolbar_username?.visibility = View.VISIBLE
-            mainactivity?.toolbar_btn_back?.visibility = View.VISIBLE
+            mbinding?.toolbarLogo?.visibility = View.GONE
+            mbinding?.toolbarUsername?.visibility = View.VISIBLE
+            mbinding?.toolbarBtnBack?.visibility = View.VISIBLE
 
-            fragmentView?.account_btn_follow_signout?.setOnClickListener {
+            binding.accountBtnFollowSignout?.setOnClickListener {
                 requestFollow()
             }
         }
 
-        fragmentView?.account_recyclerview?.adapter = UserFragmentRecyclerViewAdapter()
-        fragmentView?.account_recyclerview?.layoutManager = GridLayoutManager(activity, 3)
+        binding?.accountRecyclerview?.adapter = UserFragmentRecyclerViewAdapter()
+        binding?.accountRecyclerview?.layoutManager = GridLayoutManager(activity, 3)
 
-        fragmentView?.account_iv_profile?.setOnClickListener {
+        binding?.accountIvProfile?.setOnClickListener {
             var photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
             activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
@@ -105,7 +108,7 @@ class UserFragment : Fragment() {
         getProfileImage()
         getFollowerAndFollowing()
 
-        return fragmentView
+        return binding.root
     }
 
     fun getFollowerAndFollowing(){
@@ -113,18 +116,18 @@ class UserFragment : Fragment() {
             if(documentSnapshot == null) return@addSnapshotListener
             var followDTO = documentSnapshot.toObject(FollowDTO::class.java)
             if(followDTO?.followingCount != null){
-                fragmentView?.account_following_textview?.text = followDTO?.followingCount?.toString()
+                binding?.accountFollowingTextview?.text = followDTO.followingCount.toString()
             }
             if(followDTO?.followerCount != null){
-                fragmentView?.account_follower_textview?.text = followDTO?.followerCount?.toString()
-                if(followDTO?.followers?.containsKey(currentUserUid!!) == true){
-                    fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow_cancel)
-                    fragmentView?.account_btn_follow_signout?.background
+                binding?.accountFollowerTextview?.text = followDTO.followerCount.toString()
+                if(followDTO.followers.containsKey(currentUserUid!!) == true){
+                    binding?.accountBtnFollowSignout?.text = getString(R.string.follow_cancel)
+                    binding?.accountBtnFollowSignout?.background
                         ?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.colorLightGray),PorterDuff.Mode.MULTIPLY)
                 }else{
                     if(uid != currentUserUid){
-                        fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow)
-                        fragmentView?.account_btn_follow_signout?.background?.colorFilter = null
+                        binding?.accountBtnFollowSignout?.text = getString(R.string.follow)
+                        binding?.accountBtnFollowSignout?.background?.colorFilter = null
                     }
 
                 }
@@ -195,6 +198,9 @@ class UserFragment : Fragment() {
         alarmDTO.kind = 2
         alarmDTO.timestamp = System.currentTimeMillis()
         FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
+
+        var message = auth?.currentUser?.email + getString(R.string.alarm_follow)
+        FcmPush.instance.sendMessage(destinationUid, "Hyupstagram", message)
     }
 
     fun getProfileImage(){
@@ -202,7 +208,7 @@ class UserFragment : Fragment() {
             if(documentSnapshot == null) return@addSnapshotListener
             if(documentSnapshot.data != null){
                 var url = documentSnapshot?.data!!["image"]
-                Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop()).into(fragmentView?.account_iv_profile!!)
+                Glide.with(requireActivity()).load(url).apply(RequestOptions().circleCrop()).into(binding.accountIvProfile!!)
             }
         }
     }
@@ -240,7 +246,7 @@ class UserFragment : Fragment() {
                 for(snaphot in value.documents) {
                     contentModels.add(snaphot.toObject(ContentModel::class.java)!!)
                 }
-                fragmentView?.account_post_textview?.text = contentModels.size.toString()
+                binding?.accountPostTextview?.text = contentModels.size.toString()
                 notifyDataSetChanged()
             }
         }

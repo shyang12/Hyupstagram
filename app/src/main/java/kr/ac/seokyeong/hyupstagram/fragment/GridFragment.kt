@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.fragment_grid.view.*
 import kr.ac.seokyeong.hyupstagram.R
+import kr.ac.seokyeong.hyupstagram.databinding.FragmentGridBinding
 import kr.ac.seokyeong.hyupstagram.model.ContentModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -33,6 +34,9 @@ class GridFragment : Fragment() {
 
     var firestore : FirebaseFirestore? = null
     var fragmentView : View? = null
+    lateinit var binding : FragmentGridBinding
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,12 +51,13 @@ class GridFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_grid, container, false)
         fragmentView = LayoutInflater.from(activity).inflate(R.layout.fragment_grid, container, false)
         firestore = FirebaseFirestore.getInstance()
-        fragmentView?.grid_recyclerview?.adapter = UserFragmentRecyclerViewAdapter()
-        fragmentView?.grid_recyclerview?.layoutManager = GridLayoutManager(activity, 3)
+        binding.gridRecyclerview.adapter = UserFragmentRecyclerViewAdapter()
+        binding.gridRecyclerview.layoutManager = GridLayoutManager(activity, 3)
 
-        return fragmentView
+        return binding.root
     }
 
     inner class UserFragmentRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
