@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /* override fun onStop() {
+     /*override fun onStop() {
         super.onStop()
         FcmPush.instance.sendMessage("pS14mwEQfuMxllFuZb8XUHLQO2z2", "hi", "bye")
     }*/

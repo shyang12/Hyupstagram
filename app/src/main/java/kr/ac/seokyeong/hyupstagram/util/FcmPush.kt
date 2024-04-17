@@ -9,7 +9,7 @@ import java.io.IOException
 class FcmPush {
     var JSON = MediaType.parse("application/json; charset=utf-8")
     var url = "https://fcm.googleapis.com/fcm/send"
-    var serverKey = "AIzaSyCHF4qFNxDdTWoHrz2iVUOOJUDs1DhsUHg"
+    var serverKey = "AAAA_SnvPio:APA91bGel3tWr51gFnYspWTsnIhatANHr06DGFaAyHrd2x4zXGtraTNpyXZ7RqJYF8uMvE2whCu3eq2WWujkDkAHSCyGCTs9OIGBllRuBLJEdnI0-vKbF4mHoLzp9xrSJa8B7AIiDvZh"
     var gson : Gson? = null
     var okHttpClient : OkHttpClient? = null
 
