@@ -10,7 +10,16 @@
 - Windows 10
 - Android Studio / Kotlin 
 - Firebase
+- GitHub
 
+### 1. 2 Implement
+- 구글 인증, 페이스북 인증, 이메일 인증 회원가입 및 로그인 구현 `Firebase Authentication` `Google API` `Facebook API`
+- Hyupstagram 게시판 구현 `Firebase RealtimeDatabase + Storage`
+- 댓글, 좋아요 기능 구현 `Firebase RealtimeDatabase`
+- 프로필, 상대 프로필 팔로우, 팔로우 취소, 내용 등 구현 `Firebase RealtimeDatabase + Storage`
+- MyPage 구현 `Firebase RealtimeDatabase + Storage`
+- PUSH 알림(댓글, 좋아요, 팔로우) 구현 `Cloud Messaging`
+- 
 ## 2. Project Architecture   
 ```bash
 ├── fragment
