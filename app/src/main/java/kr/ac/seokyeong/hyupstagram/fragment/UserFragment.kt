@@ -41,7 +41,6 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class UserFragment : Fragment() {
-    var fragmentView : View? = null
     var firestore : FirebaseFirestore? = null
     var uid : String? = null
     var auth : FirebaseAuth? = null
@@ -74,8 +73,8 @@ class UserFragment : Fragment() {
 
         if(uid == currentUserUid) {
             // MyPage
-            binding?.accountBtnFollowSignout?.text = getString(R.string.signout)
-            binding?.accountBtnFollowSignout?.setOnClickListener {
+            binding.accountBtnFollowSignout.text = getString(R.string.signout)
+            binding.accountBtnFollowSignout.setOnClickListener {
                 activity?.finish()
                 startActivity(Intent(activity, LoginActivity::class.java))
                 auth?.signOut()
@@ -84,23 +83,23 @@ class UserFragment : Fragment() {
             // OtherUserPage
             binding.accountBtnFollowSignout.text = getString(R.string.follow)
             var mbinding = ActivityMainBinding.inflate(layoutInflater)
-            mbinding?.toolbarUsername?.text = arguments?.getString("userId")
-            mbinding?.toolbarBtnBack?.setOnClickListener {
-                mbinding?.bottomNavigation?.selectedItemId = R.id.action_home
+            mbinding.toolbarUsername.text = arguments?.getString("userId")
+            mbinding.toolbarBtnBack.setOnClickListener {
+                mbinding.bottomNavigation.selectedItemId = R.id.action_home
             }
-            mbinding?.toolbarLogo?.visibility = View.GONE
-            mbinding?.toolbarUsername?.visibility = View.VISIBLE
-            mbinding?.toolbarBtnBack?.visibility = View.VISIBLE
+            mbinding.toolbarLogo.visibility = View.GONE
+            mbinding.toolbarUsername.visibility = View.VISIBLE
+            mbinding.toolbarBtnBack.visibility = View.VISIBLE
 
             binding.accountBtnFollowSignout?.setOnClickListener {
                 requestFollow()
             }
         }
 
-        binding?.accountRecyclerview?.adapter = UserFragmentRecyclerViewAdapter()
-        binding?.accountRecyclerview?.layoutManager = GridLayoutManager(activity, 3)
+        binding.accountRecyclerview.adapter = UserFragmentRecyclerViewAdapter()
+        binding.accountRecyclerview.layoutManager = GridLayoutManager(activity, 3)
 
-        binding?.accountIvProfile?.setOnClickListener {
+        binding.accountIvProfile.setOnClickListener {
             var photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
             activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
@@ -116,18 +115,18 @@ class UserFragment : Fragment() {
             if(documentSnapshot == null) return@addSnapshotListener
             var followDTO = documentSnapshot.toObject(FollowDTO::class.java)
             if(followDTO?.followingCount != null){
-                binding?.accountFollowingTextview?.text = followDTO.followingCount.toString()
+                binding.accountFollowingTextview.text = followDTO.followingCount.toString()
             }
             if(followDTO?.followerCount != null){
-                binding?.accountFollowerTextview?.text = followDTO.followerCount.toString()
+                binding.accountFollowerTextview.text = followDTO.followerCount.toString()
                 if(followDTO.followers.containsKey(currentUserUid!!) == true){
-                    binding?.accountBtnFollowSignout?.text = getString(R.string.follow_cancel)
-                    binding?.accountBtnFollowSignout?.background
+                    binding.accountBtnFollowSignout.text = getString(R.string.follow_cancel)
+                    binding.accountBtnFollowSignout.background
                         ?.setColorFilter(ContextCompat.getColor(requireActivity(),R.color.colorLightGray),PorterDuff.Mode.MULTIPLY)
                 }else{
                     if(uid != currentUserUid){
-                        binding?.accountBtnFollowSignout?.text = getString(R.string.follow)
-                        binding?.accountBtnFollowSignout?.background?.colorFilter = null
+                        binding.accountBtnFollowSignout.text = getString(R.string.follow)
+                        binding.accountBtnFollowSignout.background?.colorFilter = null
                     }
 
                 }
