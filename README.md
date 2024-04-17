@@ -52,7 +52,7 @@
 │   │   ├── item_comment.xml
 │   │   └── item_detail.xml
 │   ├── menu
-│   │   └── bottom_navigation.kt
+        └── bottom_navigation.kt
 ```
 
 ## 3. Firebase   
