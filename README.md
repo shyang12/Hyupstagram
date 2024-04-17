@@ -3,7 +3,7 @@
  
  - 안드로이드 스튜디오에서 Kotlin을 기반으로 이미지 기반 소셜 미디어 서비스를 구현하는 프로젝트
 
-`MVVM` `ViewBinding` `dataviewbinding` `Glide` `Firebase`
+`MVVM` `ViewBinding` `dataviewbinding` `Glide` `Firebase` `FcmPush알림(Cloud Messaging)`
 
 ## 1. Co-Development Environment   
 ### 1. 1 Environments
@@ -19,7 +19,7 @@
 - 프로필, 상대 프로필 팔로우, 팔로우 취소, 내용 등 구현 `Firebase RealtimeDatabase + Storage`
 - MyPage 구현 `Firebase RealtimeDatabase + Storage`
 - PUSH 알림(댓글, 좋아요, 팔로우) 구현 `Cloud Messaging`
-- 
+
 ## 2. Project Architecture   
 ```bash
 ├── fragment
