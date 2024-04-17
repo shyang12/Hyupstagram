@@ -3,7 +3,7 @@
  
  - 안드로이드 스튜디오에서 Kotlin을 기반으로 이미지 기반 소셜 미디어 서비스를 구현하는 프로젝트
 
-`MVVM` `MVC` `dataviewbinding` `Glide` `Firebase`
+`MVVM` `ViewBinding` `dataviewbinding` `Glide` `Firebase`
 
 ## 1. Co-Development Environment   
 ### 1. 1 Environments
