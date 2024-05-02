@@ -16,8 +16,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Hyupstagram"
         tools:targetApi="31">
-        <activity android:name=".navigation.CommentActivity">
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
+        <activity android:name=".navigation.CommentActivity"></activity>
         <activity
             android:name=".AddPhotoActivity"
             android:exported="false">
@@ -83,12 +89,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/push_icon"/>
+            android:resource="@drawable/push_icon" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent"/>
+            android:resource="@color/colorAccent" />
     </application>
 
 </manifest>

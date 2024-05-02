@@ -86,21 +86,21 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    fun setObserve() {
+    fun setObserve(){
         loginViewModel.showInputNumberActivity.observe(this){
             if(it){
                 finish()
-                startActivity(Intent(this, InputNumberActivity::class.java))
+                startActivity(Intent(this,InputNumberActivity::class.java))
             }
         }
         loginViewModel.showFindIdActivity.observe(this){
             if(it){
-                startActivity(Intent(this, FindIdActivity::class.java))
+                startActivity(Intent(this,FindIdActivity::class.java))
             }
         }
-        loginViewModel.showMainActivity.observe(this) {
-            if(it) {
-                startActivity(Intent(this, MainActivity::class.java))
+        loginViewModel.showMainActivity.observe(this){
+            if(it){
+                startActivity(Intent(this,MainActivity::class.java))
             }
         }
     }

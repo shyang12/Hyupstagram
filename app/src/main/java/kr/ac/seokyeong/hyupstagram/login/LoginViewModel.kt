@@ -12,10 +12,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kr.ac.seokyeong.hyupstagram.R
+import kr.ac.seokyeong.hyupstagram.model.User
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
     var auth = FirebaseAuth.getInstance()
+    private lateinit var dbref: DatabaseReference
     var id : MutableLiveData<String> = MutableLiveData("hyup")
     var password : MutableLiveData<String> = MutableLiveData("")
 
@@ -23,6 +28,9 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     var showFindIdActivity : MutableLiveData<Boolean> = MutableLiveData(false)
     var showMainActivity : MutableLiveData<Boolean> = MutableLiveData(false)
     val context = getApplication<Application>().applicationContext
+
+    // 데이터베이스 초기화
+
 
     var googleSignInClient : GoogleSignInClient
 
@@ -36,24 +44,31 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
     }
 
-    fun loginWithSignupEmail() {
+    fun loginWithSignupEmail(){
+        dbref = Firebase.database.reference
         println("Email")
-        auth.createUserWithEmailAndPassword(id.value.toString(), password.value.toString()).addOnCompleteListener {
-            if(it.isSuccessful) {
+        auth.createUserWithEmailAndPassword(id.value.toString(),password.value.toString()).addOnCompleteListener {
+            if(it.isSuccessful){
                 showInputNumberActivity.value = true
-            } else {
-                // 아이디가 있을경우
+                addUserToDatabase(id.value.toString(), auth.currentUser?.uid!!)
+            }else{
+                //아이디가 있을경우
                 loginEmail()
             }
         }
     }
 
-    fun loginEmail() {
-        auth.signInWithEmailAndPassword(id.value.toString(), password.value.toString()).addOnCompleteListener {
-            if(it.isSuccessful) {
+    private fun addUserToDatabase(email: String, uId: String){
+        dbref.child("user").child(uId).setValue(User(email, uId))
+    }
+
+    fun loginEmail(){
+        auth.signInWithEmailAndPassword(id.value.toString(),password.value.toString()).addOnCompleteListener {
+            if(it.isSuccessful){
                 if(it.result.user?.isEmailVerified == true){
                     showMainActivity.value = true
-                } else{
+
+                }else{
                     showInputNumberActivity.value = true
                 }
             }
@@ -70,6 +85,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         auth.signInWithCredential(credential).addOnCompleteListener {
             if(it.result.user?.isEmailVerified == true){
                 showMainActivity.value = true
+                println(it.result.user)
             } else{
                 showInputNumberActivity.value = true
             }
@@ -82,6 +98,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
             if(it.isSuccessful) {
                 if(it.result.user?.isEmailVerified == true){
                     showMainActivity.value = true
+                    println(it.result.user)
                 } else{
                     showInputNumberActivity.value = true
                 }
