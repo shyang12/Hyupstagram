@@ -117,6 +117,7 @@
 ### 3.4 Realtime Database
 ```bash
 ├── user
+```
 
 ### 3.5 Cloud Messaging
 
