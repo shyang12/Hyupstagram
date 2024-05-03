@@ -14,11 +14,12 @@
 
 ### 1. 2 Implement
 - 구글 인증, 페이스북 인증, 이메일 인증 회원가입 및 로그인 구현 `Firebase Authentication` `Google API` `Facebook API`
-- Hyupstagram 게시판 구현 `Firebase RealtimeDatabase + Storage`
+- Hyupstagram 게시판 구현 `Firestore Database + Storage`
 - 댓글, 좋아요 기능 구현 `Firebase RealtimeDatabase`
-- 프로필, 상대 프로필 팔로우, 팔로우 취소, 내용 등 구현 `Firebase RealtimeDatabase + Storage`
+- 프로필, 상대 프로필 팔로우, 팔로우 취소, 내용 등 구현 `Firestore Database + Storage`
 - MyPage 구현 `Firebase RealtimeDatabase + Storage`
 - PUSH 알림(댓글, 좋아요, 팔로우) 구현 `Cloud Messaging`
+- Direct Message (채팅) 구현 `Realtime Database`
 
 ## 2. Project Architecture   
 ```bash
@@ -67,7 +68,7 @@
 ## 3. Firebase   
 ### 3.1 Authentication
 
-### 3.2 Realtime Database
+### 3.2 Firestore Database
 ```bash
 ├── alarms
 │   └── alarm
@@ -113,7 +114,11 @@
     └── PROFILEIMAGE_FILE.png
 ```
 
-### 3.4 Cloud Messaging
+### 3.4 Realtime Database
+```bash
+├── user
+
+### 3.5 Cloud Messaging
 
 ## 4. Result   
 - 로그인 및 프로필 편집
