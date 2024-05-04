@@ -125,10 +125,13 @@
 - 로그인
 ![1](https://github.com/shyang12/hyupstagram/assets/85710913/5959caa7-f5de-4ea1-a04e-a0b6b0e09ddf)
 
+
 - 게시글 CRUD (갱신 제외)
 ![2](https://github.com/shyang12/hyupstagram/assets/85710913/1ee2db60-beae-4c7f-9fc5-49b164d906f7)
 
 
+
 - MyPage Gridview 편집
 ![3](https://github.com/shyang12/hyupstagram/assets/85710913/b2c09cfa-e5cf-4c7a-92e8-c79e42576272)
+
 
