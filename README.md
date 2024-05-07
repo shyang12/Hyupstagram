@@ -39,6 +39,7 @@
 │   ├── AlarmDTO.kt
 │   ├── ContentModel.kt
 │   ├── FollowDTO.kt
+│   ├── User.kt
 │   └── PushDTO.kt
 ├── navigation
 │   └── CommentActivity.kt
@@ -46,12 +47,17 @@
 │   └── FcmPush.kt
 ├── main
 │   ├── MainActivity.kt
+│   ├── ChatMainActivity.kt
+│   ├── ChatActivity.kt
+│   ├── UserAdapter.kt
 │   └── AddPhotoActivity.kt
 ├── ui
 │   ├── layout
 │   │   ├── activity_add_photo.xml
 │   │   ├── activity_comment.xml
 │   │   ├── activity_find_id.xml
+│   │   ├── activity_chat.xml
+│   │   ├── activity_chat_main.xml
 │   │   ├── activity_input_number.xml
 │   │   ├── activity_login.xml
 │   │   ├── activity_main.xml
@@ -59,6 +65,7 @@
 │   │   ├── fragment_detail_view.xml
 │   │   ├── fragment_grid.xml
 │   │   ├── fragment_user.xml
+│   │   ├── user_layout.xml
 │   │   ├── item_comment.xml
 │   │   └── item_detail.xml
 │   ├── menu
