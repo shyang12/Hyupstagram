@@ -10,7 +10,7 @@ import kr.ac.seokyeong.hyupstagram.databinding.ActivityFindIdBinding
 
 class FindIdActivity : AppCompatActivity() {
     lateinit var binding : ActivityFindIdBinding
-    val findIdViewModel : FindIdViewModel by viewModels()
+    private val findIdViewModel : FindIdViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_find_id)
@@ -20,7 +20,7 @@ class FindIdActivity : AppCompatActivity() {
         setObserve()
     }
 
-    fun setObserve() {
+    private fun setObserve() {
         findIdViewModel.toastMessage.observe(this) {
             if(!it.isEmpty()) {
                 Toast.makeText(this, it, Toast.LENGTH_LONG).show()

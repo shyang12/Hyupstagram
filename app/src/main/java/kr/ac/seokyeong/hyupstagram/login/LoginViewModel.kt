@@ -58,20 +58,14 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun addUserToDatabase(email: String, uId: String){
-        dbref.child("user").child(uId).setValue(User(email, uId))
-    }
-
     fun loginEmail(){
         auth.signInWithEmailAndPassword(id.value.toString(),password.value.toString()).addOnCompleteListener {
-            if(it.isSuccessful){
-                if(it.result.user?.isEmailVerified == true){
-                    showMainActivity.value = true
-
-                }else{
-                    showInputNumberActivity.value = true
+            if(it.isSuccessful) {
+                showMainActivity.value = true
+            }else{
+                showInputNumberActivity.value = true
                 }
-            }
+
         }
     }
 
@@ -85,7 +79,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         auth.signInWithCredential(credential).addOnCompleteListener {
             if(it.result.user?.isEmailVerified == true){
                 showMainActivity.value = true
-                println(it.result.user)
+
             } else{
                 showInputNumberActivity.value = true
             }
@@ -104,5 +98,10 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
         }
+    }
+
+    private fun addUserToDatabase(email: String, uId: String){
+        dbref = Firebase.database.reference
+        dbref.child("user").child(uId).setValue(User(email, uId))
     }
  }

@@ -32,6 +32,10 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 0)
+
+        val intent = Intent(this, ChatMainActivity::class.java)
+        binding.dmBtn.setOnClickListener { startActivity(intent) }
+
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
             setToolbarDefault()
             when(it.itemId) {
