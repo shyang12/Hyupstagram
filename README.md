@@ -19,7 +19,6 @@
 - 프로필, 상대 프로필 팔로우, 팔로우 취소, 내용 등 구현 `Firestore Database + Storage`
 - MyPage 구현 `Firebase RealtimeDatabase + Storage`
 - PUSH 알림(댓글, 좋아요, 팔로우) 구현 `Cloud Messaging`
-- Direct Message (채팅) 구현 `Realtime Database`
 
 ## 2. Project Architecture   
 ```bash
@@ -139,9 +138,20 @@
 ![2](https://github.com/shyang12/hyupstagram/assets/85710913/1ee2db60-beae-4c7f-9fc5-49b164d906f7)
 
 
+- Account 페이지
+
+
+
 
 - MyPage Gridview 편집
   
 ![3](https://github.com/shyang12/hyupstagram/assets/85710913/b2c09cfa-e5cf-4c7a-92e8-c79e42576272)
+
+
+- 댓글
+
+
+
+- 알림 발생
 
 
