@@ -140,6 +140,7 @@
 
 - Account 페이지
 
+![내 계정](https://github.com/shyang12/hyupstagram/assets/85710913/aadf026c-1c52-4fc7-931d-c39d47a8df8f)
 
 
 
@@ -150,8 +151,10 @@
 
 - 댓글
 
+![댓글](https://github.com/shyang12/hyupstagram/assets/85710913/a8137560-e540-4f00-a17c-7647a160a0df)
 
 
 - 알림 발생
 
+![알림](https://github.com/shyang12/hyupstagram/assets/85710913/b02abea0-0ee9-43db-8e02-f0c22b1180b0)
 
